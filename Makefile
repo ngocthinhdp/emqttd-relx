@@ -4,7 +4,7 @@ PROJECT_VERSION = 2.0
 
 DEPS = emqttd emqttd_dashboard emqttd_recon emqttd_reloader emqttd_stomp emqttd_auth_ldap \
 	   emqttd_auth_http emqttd_auth_mysql emqttd_auth_pgsql emqttd_auth_redis \
-	   emqttd_auth_mongo emqttd_plugin_template emqttd_sn emqttd_coap
+	   emqttd_auth_mongo emqttd_plugin_template emqttd_sn emqttd_coap emqttd_plugin_cassandra emqttd_plugin_notification cqerl jsx eredis
 
 # emqttd
 dep_emqttd 			 = git https://github.com/emqtt/emqttd master
@@ -21,10 +21,21 @@ dep_emqttd_auth_pgsql      = git https://github.com/emqtt/emqttd_auth_pgsql mast
 dep_emqttd_auth_redis      = git https://github.com/emqtt/emqttd_auth_redis master
 dep_emqttd_auth_mongo      = git https://github.com/emqtt/emqttd_auth_mongo master
 dep_emqttd_plugin_template = git https://github.com/emqtt/emqttd_plugin_template master
+dep_emqttd_plugin_cassandra = git https://github.com/ngocthinhdp/emqttd_plugin_cassandra.git master
+dep_emqttd_plugin_notification = git https://github.com/ngocthinhdp/emqttd_plugin_notification.git master
 
 # mqtt-sn and coap
 dep_emqttd_sn 	= git https://github.com/emqtt/emqttd_sn master
 dep_emqttd_coap = git https://github.com/emqtt/emqttd_coap master
+
+# cassandra
+dep_cqerl     = git https://github.com/matehat/cqerl.git master
+
+# jsx
+dep_jsx = git https://github.com/talentdeficit/jsx.git v2.8.0
+
+# redis
+dep_eredis = git https://github.com/wooga/eredis.git master
 
 # COVER = true
 
