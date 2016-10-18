@@ -8,7 +8,7 @@ Build
 
 1. Clone
  ```
- git clone https://github.com/emqtt/emqttd-relx.git
+ git clone https://github.com/ngocthinhdp/emqttd-relx.git
  ```
 
 2. Install Rabbit's dependences
