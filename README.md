@@ -13,26 +13,39 @@ Build
 
 2. Install Rabbit's dependences
  ```
-wget http://www.rabbitmq.com/releases/rabbitmq-erlang-client/v2.7.0/rabbit_common-2.7.0.ez
-unzip rabbit_common-2.7.0.ez
-ln -s rabbit_common-2.7.0 rabbit_common
+ wget http://www.rabbitmq.com/releases/rabbitmq-erlang-client/v2.7.0/rabbit_common-2.7.0.ez 
+ unzip rabbit_common-2.7.0.ez
+ ln -s rabbit_common-2.7.0 rabbit_common
 
-wget http://www.rabbitmq.com/releases/rabbitmq-erlang-client/v2.7.0/amqp_client-2.7.0.ez
-unzip amqp_client-2.7.0.ez
-ln -s amqp_client-2.7.0 amqp_client
+ wget http://www.rabbitmq.com/releases/rabbitmq-erlang-client/v2.7.0/amqp_client-2.7.0.ez
+ unzip amqp_client-2.7.0.ez
+ ln -s amqp_client-2.7.0 amqp_client
  ```
 
 3. Build
  ```
-cd emqttd-relx && make
+ cd emqttd-relx && make
  ```
 
- If there have any dupplicate errors(priority_queue & gen_server2) then remove them all from emqtt and rebuild:
+ Error: `Duplicated modules`(priority_queue & gen_server2) -> remove them all from emqtt and rebuild:
  ```
-rm deps/emqttd/ebin/gen_server2.beam 
-rm deps/emqttd/ebin/priority_queue.beam 
-make clean
-make
+ rm deps/emqttd/ebin/gen_server2.beam 
+ rm deps/emqttd/ebin/priority_queue.beam 
+ ```
+ ```
+ make clean
+ make
+ ```
+ 
+ Error: `redefining macro` -> just need to remove defining macro from this sources and rebuild
+ Ex:
+ ```
+ % -define(PROTOCOL_VERSION, "AMQP 0-9-1 / 0-9 / 0-8").
+ % -define(ERTS_MINIMUM, "5.6.3").
+ ```
+ ```
+ make clean
+ make
  ```
 
 4. Start eMQTT & Active plugins
