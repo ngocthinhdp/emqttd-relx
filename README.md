@@ -48,5 +48,6 @@ Apache License Version 2.0
 ## Author
 
 Feng Lee <feng@emqtt.io>
-Thinh <ngocthinhdp>
+
+Thinh <ngocthinhdp@gmail.com>
 
