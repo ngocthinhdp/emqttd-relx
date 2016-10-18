@@ -1,7 +1,7 @@
 emqttd-relx
 ===========
 
-The release project for EMQ 2.0 with hooking plugins
+The release project for EMQ 2.0 with hooking plugins (support cassandra, redis, rabbitmq)
 
 Build
 -----
