@@ -6,13 +6,13 @@ The release project for EMQ 2.0
 Build
 -----
 
-1. Clone project
+Clone project
 
 ```
 git clone https://github.com/emqtt/emqttd-relx.git
 ```
 
-2. Install Rabbit dependences
+Install Rabbit dependences
 
 ```
 wget http://www.rabbitmq.com/releases/rabbitmq-erlang-client/v2.7.0/rabbit_common-2.7.0.ez
@@ -24,7 +24,7 @@ unzip amqp_client-2.7.0.ez
 ln -s amqp_client-2.7.0 amqp_client
 ```
 
-3. Make
+Make
 
 ```
 cd emqttd-relx && make
@@ -40,7 +40,7 @@ make
 
 ```
 
-4. Start emqtt & active plugins
+Start emqtt & active plugins
 
 ```
 cd _rel/emqttd && ./bin/emqttd start
