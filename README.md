@@ -37,6 +37,7 @@ Build
  ```
  
  Error: `redefining macro` -> just need to remove defining macro from this sources and rebuild
+
  Ex:
  ```
  % -define(PROTOCOL_VERSION, "AMQP 0-9-1 / 0-9 / 0-8").
