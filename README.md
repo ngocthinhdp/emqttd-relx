@@ -27,10 +27,9 @@ Build
  cd emqttd-relx && make
  ```
 
- Error: `Duplicated modules`(priority_queue & gen_server2) -> remove them all from emqtt and rebuild:
+ Error: `Duplicated modules`(priority_queue & gen_server2) -> remove them all from emqtt.app and rebuild:
  ```
- rm deps/emqttd/ebin/gen_server2.beam 
- rm deps/emqttd/ebin/priority_queue.beam 
+ Go to deps/emqttd/ebin/emqttd.app and remove those from [modules
  ```
  ```
  make clean
