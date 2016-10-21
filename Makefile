@@ -6,7 +6,7 @@ DEPS = emqttd emq_dashboard emq_recon emq_reloader emq_stomp emq_mod_rewrite \
 	   emq_auth_clientid emq_auth_username emq_auth_ldap emq_auth_http \
 	   emq_auth_mysql emq_auth_pgsql emq_auth_redis emq_auth_mongo \
 	   emq_plugin_template emq_sn emq_coap \
-	   emqttd_plugin_cassandra emqttd_plugin_notification cqerl jsx eredis_cluster
+	   emqttd_plugin_cassandra cqerl jsx eredis_cluster
 
 # emq deps
 dep_emqttd        = git https://github.com/emqtt/emqttd master
@@ -28,11 +28,9 @@ dep_emq_auth_pgsql      = git https://github.com/emqtt/emq_auth_pgsql master
 dep_emq_auth_redis      = git https://github.com/emqtt/emq_auth_redis master
 dep_emq_auth_mongo      = git https://github.com/emqtt/emq_auth_mongo master
 dep_emq_plugin_template = git https://github.com/emqtt/emq_plugin_template master
->>>>>>> 2d3372b7ab1901376359c441d84632c39d9adc05
 
 # external plugins
 dep_emqttd_plugin_cassandra = git https://github.com/ngocthinhdp/emqttd_plugin_cassandra.git master
-dep_emqttd_plugin_notification = git https://github.com/ngocthinhdp/emqttd_plugin_notification.git master
 
 # mqtt-sn and coap
 dep_emq_sn 	= git https://github.com/emqtt/emq_sn master
