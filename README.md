@@ -1,7 +1,11 @@
 emqttd-relx
 ===========
 
+<<<<<<< HEAD
 The release project for EMQ 2.0 with hooking plugins (support cassandra, redis, rabbitmq)
+=======
+The release project for the EMQ Broker.
+>>>>>>> 2d3372b7ab1901376359c441d84632c39d9adc05
 
 Build
 -----
@@ -54,11 +58,13 @@ cd _rel/emqttd && ./bin/emqttd start
 ./bin/emqttd_ctl plugins load emqttd_plugin_cassandra & ./bin/emqttd_ctl plugins load emqttd_plugin_notification
  ```
 
-## License
+License
+-------
 
 Apache License Version 2.0
 
-## Author
+Author
+------
 
 Feng Lee <feng@emqtt.io>
 

@@ -19,28 +19,12 @@ main(Args) ->
 
     %% any commands that don't need a running node
     case RestArgs of
+        ["mergeconf", EmqCfg, PluginsEtc, DestDir] ->
+            mergeconf(EmqCfg, PluginsEtc, DestDir);
         ["chkconfig", File] ->
-            case file:consult(File) of
-                {ok, Terms} ->
-                    case validate(Terms) of
-                        ok ->
-                            io:format("ok\n"),
-                            halt(0);
-                        {error, Problems} ->
-                            lists:foreach(fun print_issue/1, Problems),
-                            %% halt(1) if any problems were errors
-                            halt(case [x || {error, _} <- Problems] of
-                                     [] -> 0;
-                                     _  -> 1
-                                 end)
-                    end;
-                {error, {Line, Mod, Term}} ->
-                    io:format(standard_error, ["Error on line ", file:format_error({Line, Mod, Term}), "\n"], []),
-                    halt(1);
-                {error, Error} ->
-                    io:format(standard_error, ["Error reading config file: ", file:format_error(Error), "\n"], []),
-                    halt(1)
-            end;
+            chkconfig(File);
+        ["chkconfig", "-config", File|_] ->
+            chkconfig(File);
         _ ->
             ok
     end,
@@ -49,11 +33,11 @@ main(Args) ->
     case {net_kernel:hidden_connect_node(TargetNode), net_adm:ping(TargetNode)} of
         {true, pong} ->
             ok;
-        {false,pong} ->
-            io:format("Failed to connect to node ~p .\n", [TargetNode]),
+        {false, pong} ->
+            io:format(standard_error, "Failed to connect to node ~p .\n", [TargetNode]),
             halt(1);
         {_, pang} ->
-            io:format("Node ~p not responding to pings.\n", [TargetNode]),
+            io:format(standard_error, "Node ~p not responding to pings.\n", [TargetNode]),
             halt(1)
     end,
 
@@ -131,7 +115,7 @@ main(Args) ->
             end;
         Other ->
             io:format("Other: ~p\n", [Other]),
-            io:format("Usage: nodetool {chkconfig|getpid|ping|stop|restart|reboot|rpc|rpc_infinity|rpcterms|eval [Terms]} [RPC]\n")
+            io:format("Usage: nodetool {genconfig, chkconfig|getpid|ping|stop|restart|reboot|rpc|rpc_infinity|rpcterms|eval [Terms]} [RPC]\n")
     end,
     net_kernel:stop().
 
@@ -150,7 +134,6 @@ process_args(["-sname", TargetName | Rest], Acc, _) ->
     process_args(Rest, Acc, nodename(TargetName));
 process_args([Arg | Rest], Acc, Opts) ->
     process_args(Rest, [Arg | Acc], Opts).
-
 
 start_epmd() ->
     [] = os:cmd("\"" ++ epmd_path() ++ "\" -daemon"),
@@ -172,7 +155,6 @@ epmd_path() ->
             Epmd
     end.
 
-
 nodename(Name) ->
     case string:tokens(Name, "@") of
         [_Node, _Host] ->
@@ -188,6 +170,54 @@ append_node_suffix(Name, Suffix) ->
             list_to_atom(lists:concat([Node, Suffix, os:getpid(), "@", Host]));
         [Node] ->
             list_to_atom(lists:concat([Node, Suffix, os:getpid()]))
+    end.
+
+mergeconf(EmqCfg, PluginsEtc, DestDir) ->
+    AppConf = filename:join(DestDir, appconf()),
+    case file:open(AppConf, [write]) of
+        {ok, DestFd} ->
+            CfgFiles = [EmqCfg | cfgfiles(PluginsEtc)],
+            lists:foreach(fun(CfgFile) ->
+                            {ok, CfgData} = file:read_file(CfgFile),
+                            file:write(DestFd, CfgData)
+                          end, CfgFiles),
+            file:close(DestFd),
+            io:format("~s", [AppConf]),
+            halt(0);
+        {error, Error} ->
+            io:format(standard_error, ["Error opening file: ", file:format_error(Error), "\n"], []),
+            halt(1)
+    end.
+
+appconf() ->
+    {{Y, M, D}, {H, MM, S}} = calendar:local_time(),
+    lists:flatten(
+      io_lib:format(
+        "app.~4..0w.~2..0w.~2..0w.~2..0w.~2..0w.~2..0w.conf", [Y, M, D, H, MM, S])).
+
+cfgfiles(Dir) ->
+    [filename:join(Dir, CfgFile) || CfgFile <- filelib:wildcard("*.conf", Dir)].
+
+chkconfig(File) ->
+    case file:consult(File) of
+        {ok, Terms} ->
+            case validate(Terms) of
+                ok ->
+                    halt(0);
+                {error, Problems} ->
+                    lists:foreach(fun print_issue/1, Problems),
+                    %% halt(1) if any problems were errors
+                    halt(case [x || {error, _} <- Problems] of
+                             [] -> 0;
+                             _  -> 1
+                         end)
+            end;
+        {error, {Line, Mod, Term}} ->
+            io:format(standard_error, ["Error on line ", file:format_error({Line, Mod, Term}), "\n"], []),
+            halt(1);
+        {error, Error} ->
+            io:format(standard_error, ["Error reading config file: ", file:format_error(Error), "\n"], []),
+            halt(1)
     end.
 
 %%
