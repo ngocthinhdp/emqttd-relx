@@ -4,7 +4,8 @@ PROJECT_VERSION = 2.0
 
 DEPS = emqttd emqttd_dashboard emqttd_recon emqttd_reloader emqttd_stomp emqttd_auth_ldap \
 	   emqttd_auth_http emqttd_auth_mysql emqttd_auth_pgsql emqttd_auth_redis \
-	   emqttd_auth_mongo emqttd_plugin_template emqttd_sn emqttd_coap emqttd_plugin_cassandra emqttd_plugin_notification cqerl jsx eredis_cluster
+	   emqttd_auth_mongo emqttd_plugin_template emqttd_sn emqttd_coap emqttd_plugin_cassandra \
+	   emqttd_plugin_notification cqerl jsx eredis_cluster
 
 # emqttd
 dep_emqttd 			 = git https://github.com/emqtt/emqttd master
